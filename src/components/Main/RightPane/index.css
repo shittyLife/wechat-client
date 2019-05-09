@@ -1,0 +1,34 @@
+.right-pane {
+  flex-grow: 1;
+  background-color: darkorchid;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-header {
+  height: 90px;
+  width: 95%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.chat-window {
+  background-color: #ffffff;
+  height: 65%;
+  width: 95%;
+  padding: 0 0;
+}
+
+.footer {
+  width: 95%;
+  margin-top: 10px;
+}
+
+.footer > textarea {
+  height: 80px;
+  resize: none;
+  width: 98%;
+}

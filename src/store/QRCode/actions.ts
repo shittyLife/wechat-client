@@ -11,7 +11,6 @@ import {
   IFetchUuidActionFailure,
   FETCH_UUID_FAILURE
 } from "./types";
-import { ActionCreator } from "redux";
 
 export function setQRCodeAction(src: string): ISetQRCodeSrcAction {
   return {

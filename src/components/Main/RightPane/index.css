@@ -24,11 +24,20 @@
 
 .footer {
   width: 95%;
-  margin-top: 10px;
+  margin-top: 8px;
+  text-align: center;
 }
 
 .footer > textarea {
   height: 80px;
   resize: none;
+}
+
+.footer > textarea,
+.footer > button {
   width: 98%;
+}
+
+.footer > button {
+  margin-bottom: 8px;
 }

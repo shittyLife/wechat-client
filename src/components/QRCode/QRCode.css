@@ -1,17 +1,6 @@
-.QRCode img {
-  height: 100%;
-  width: 100%;
-  /* padding: 0 50px 50px 50px; */
-}
-
-.qrcode-wrapper {
-  height: 400px;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 25px 0;
+.qrcode-wrapper img {
+  height: 430px;
+  width: 430px;
 }
 
 .qrcode-wrapper button {

@@ -5,7 +5,6 @@ export const FETCH_LOGIN_FAILURE = "FETCH_LOGIN_FAILURE";
 
 export interface ILoginState {
   url_type: string;
-  redirect_uri: string;
   userAvatar: string;
   fetching: boolean;
   error: Error | null;
@@ -25,7 +24,6 @@ export interface ISetUserAvatarAction {
 export interface IFetchLoginActionSuccess {
   type: typeof FETCH_LOGIN_SUCCESS;
   fetching: false;
-  redirect_uri: string;
   url_type: string;
   error: null;
 }

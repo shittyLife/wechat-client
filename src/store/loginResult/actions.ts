@@ -17,14 +17,10 @@ export function loginAction(): IFetchLoginAction {
   };
 }
 
-export function loginActionSuccess(
-  redirect_uri: string,
-  url_type: string
-): IFetchLoginActionSuccess {
+export function loginActionSuccess(url_type: string): IFetchLoginActionSuccess {
   return {
     type: FETCH_LOGIN_SUCCESS,
     fetching: false,
-    redirect_uri,
     url_type,
     error: null
   };

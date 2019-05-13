@@ -1,14 +1,10 @@
 import { takeLatest, put, call, take } from "redux-saga/effects";
 import { FETCH_UUID, SET_QRCODE_SRC } from "./types";
-import {
-  setQRCodeAction,
-  fetchUuidActionSuccess,
-  fetchUuidActionFailure
-} from "./actions";
+import { setQRCodeAction, fetchUuidActionSuccess, fetchUuidActionFailure } from "./actions";
 import { URL } from "../../constants";
-import { FETCH_LOGIN } from "../loginResult/types";
 import * as Api from "../../api";
-import { setUserAvatar } from "../loginResult/actions";
+import { setUserAvatar, loginActionSuccess } from "../loginResult/actions";
+import { checkUrlType, parseParam, generateDeviceID } from "../../util";
 
 function* watcherSaga() {
   yield takeLatest(FETCH_UUID, loadQrcodeFlow);
@@ -30,7 +26,7 @@ function* loginWorker(uuid: string) {
   let tip = 1;
   let login_response: string = "";
   let userAvatar: string;
-  // 如果 window.code 不是 200，继续轮询
+  // 如果 window.code 不是 200，继续轮询登录
   do {
     login_response = yield call(Api.login, uuid, tip);
     if (login_response.includes("201")) {
@@ -41,21 +37,21 @@ function* loginWorker(uuid: string) {
     }
   } while (!login_response.includes("200"));
 
-  console.log(login_response);
+  // 登录成功，结束轮询
+  const url_type = checkUrlType(login_response);
+  yield put(loginActionSuccess(url_type));
+  // 截取请求参数
+  const query = login_response.split('"')[1].split("?")[1];
+  // 获取公参
+  const param_response = yield call(Api.getParams, query, url_type);
+  const { skey, wxsid, wxuin, pass_ticket } = parseParam(param_response);
+  const initContact = yield call(Api.initContact, url_type, pass_ticket, {
+    Skey: skey,
+    Uin: wxuin,
+    Sid: wxsid,
+    DeviceID: generateDeviceID()
+  });
+  console.log(initContact);
 }
-
-// function* loginFlow(uuid:string, tip:number) {
-//   while (true) {
-//     yield take(FETCH_LOGIN);
-//     const login_response:string = yield call(Api.login, uuid, tip);
-//     if (login_response.includes('201')) {
-
-//     } else if (login_response.includes('200')) {
-
-//     } else {
-
-//     }
-//   }
-// }
 
 export default watcherSaga;

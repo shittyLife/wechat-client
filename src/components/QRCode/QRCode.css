@@ -1,6 +1,6 @@
-.qrcode-wrapper img {
-  height: 430px;
-  width: 430px;
+.qrcode-img {
+  height: 350px;
+  width: 350px;
 }
 
 .qrcode-wrapper button {

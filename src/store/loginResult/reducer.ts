@@ -9,16 +9,12 @@ import {
 
 const initialState: ILoginState = {
   url_type: "",
-  redirect_uri: "",
   fetching: false,
   userAvatar: "",
   error: null
 };
 
-export function loginReducer(
-  state = initialState,
-  action: LOGIN_ACTION_TYPES
-): ILoginState {
+export function loginReducer(state = initialState, action: LOGIN_ACTION_TYPES): ILoginState {
   switch (action.type) {
     case FETCH_LOGIN:
       return {
@@ -31,8 +27,7 @@ export function loginReducer(
         ...state,
         fetching: false,
         error: null,
-        url_type: action.url_type,
-        redirect_uri: action.redirect_uri
+        url_type: action.url_type
       };
     case FETCH_LOGIN_FAILURE:
       return {

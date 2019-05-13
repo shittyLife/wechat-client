@@ -6,12 +6,12 @@ import { Dispatch, ActionCreator } from "redux";
 import { IQRCodeState, QRCODE_ACTION_TYPES } from "../../store/QRCode/types";
 import { fetchUuidAction } from "../../store/QRCode/actions";
 import { ILoginState, LOGIN_ACTION_TYPES } from "../../store/loginResult/types";
-import { render } from "react-dom";
 import { setUserAvatar } from "../../store/loginResult/actions";
+import { History } from "history";
 
 interface QRCodeProps extends IQRCodeState, ILoginState {
   fetchUUID: ActionCreator<QRCODE_ACTION_TYPES>;
-  setUserAvatar: ActionCreator<LOGIN_ACTION_TYPES>;
+  resetUserAvatar: ActionCreator<LOGIN_ACTION_TYPES>;
 }
 
 const QRCode: React.FC<QRCodeProps> = ({
@@ -20,7 +20,7 @@ const QRCode: React.FC<QRCodeProps> = ({
   error,
   fetchUUID,
   userAvatar,
-  setUserAvatar
+  resetUserAvatar
 }) => {
   React.useEffect(() => {
     fetchUUID();
@@ -30,9 +30,7 @@ const QRCode: React.FC<QRCodeProps> = ({
     <div className="qrcode-wrapper">
       {error ? (
         <React.Fragment>
-          <div
-            className="nes-container is-rounded"
-            style={{ textAlign: "center" }}>
+          <div className="nes-container is-rounded" style={{ textAlign: "center" }}>
             <p>Opps, something went wrong. Check your network connection.</p>
           </div>
           <br />
@@ -42,17 +40,18 @@ const QRCode: React.FC<QRCodeProps> = ({
         </React.Fragment>
       ) : userAvatar ? (
         <React.Fragment>
-          <img src={userAvatar} style={{ padding: "100px 100px" }} />
+          <img className="user-avatar" src={userAvatar} />
           <button
-            style={{ fontSize: "1.5em" }}
-            className="nes-btn is-info"
-            onClick={setUserAvatar}>
+            style={{ fontSize: "1.5em", marginTop: "25px" }}
+            className="nes-btn is-warning"
+            onClick={resetUserAvatar}
+          >
             Switch Account
           </button>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <img src={src} alt="loading..." />
+          <img className="qrcode-img" src={src} alt="loading..." />
           <h3>Scan to log in to Wechat</h3>
           <p>Log in on phone to use Wechat on Web</p>
         </React.Fragment>
@@ -72,11 +71,9 @@ const mapStateToProps = ({
   userAvatar
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<QRCODE_ACTION_TYPES | LOGIN_ACTION_TYPES>
-) => ({
+const mapDispatchToProps = (dispatch: Dispatch<QRCODE_ACTION_TYPES | LOGIN_ACTION_TYPES>) => ({
   fetchUUID: () => dispatch(fetchUuidAction()),
-  setUserAvatar: () => dispatch(setUserAvatar(""))
+  resetUserAvatar: () => dispatch(setUserAvatar(""))
 });
 
 export default connect(

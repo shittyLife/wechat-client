@@ -16,6 +16,17 @@ interface QRCodeProps extends IQRCodeState, ILoginState, IInitState {
   history: History;
 }
 
+function useDidUpdateEffect(fn: Function, inputs: Array<any>){
+  const didMountRef = React.useRef(false);
+  React.useEffect(()=>{
+    if(didMountRef.current){
+      fn();
+    }else{
+      didMountRef.current = true;
+    }
+  }, inputs)
+}
+
 const QRCode: React.FC<QRCodeProps> = ({
   src,
   fetching,
@@ -32,10 +43,10 @@ const QRCode: React.FC<QRCodeProps> = ({
     fetchUUID();
   }, []);
 
-  React.useEffect(()=>{
-    console.log('fetching', fetching);
-    
-  }, [fetching])
+  // skip first run upon the initial render
+  useDidUpdateEffect(()=>{
+    history.push('/main');
+  }, [ContactList])
 
 
   return (

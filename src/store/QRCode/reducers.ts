@@ -10,6 +10,7 @@ import {
   FETCH_UUID_FAILURE,
   FETCH_UUID_SUCCESS
 } from "./types";
+import { Reducer } from "redux";
 
 const initialState: IQRCodeState = {
   src: "/images/mario.gif",
@@ -18,10 +19,10 @@ const initialState: IQRCodeState = {
   error: null
 };
 
-export function qrcodeReducer(
+export const qrcodeReducer: Reducer<IQRCodeState, QRCODE_ACTION_TYPES> = (
   state = initialState,
-  action: QRCODE_ACTION_TYPES
-): IQRCodeState {
+  action
+) => {
   switch (action.type) {
     case SET_QRCODE_SRC:
       return {
@@ -52,4 +53,4 @@ export function qrcodeReducer(
     default:
       return state;
   }
-}
+};

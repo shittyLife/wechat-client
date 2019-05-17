@@ -1,8 +1,5 @@
-import { URL } from "../../constants";
 import {
   ISetQRCodeSrcAction,
-  QRCODE_ACTION_TYPES,
-  IQRCodeState,
   SET_QRCODE_SRC,
   IFetchUuidAction,
   FETCH_UUID,

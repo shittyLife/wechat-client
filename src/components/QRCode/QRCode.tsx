@@ -8,10 +8,12 @@ import { fetchUuidAction } from "../../store/QRCode/actions";
 import { ILoginState, LOGIN_ACTION_TYPES } from "../../store/loginResult/types";
 import { setUserAvatar } from "../../store/loginResult/actions";
 import { History } from "history";
+import { IInitState } from "../../store/initResult/reducer";
 
-interface QRCodeProps extends IQRCodeState, ILoginState {
+interface QRCodeProps extends IQRCodeState, ILoginState, IInitState {
   fetchUUID: ActionCreator<QRCODE_ACTION_TYPES>;
   resetUserAvatar: ActionCreator<LOGIN_ACTION_TYPES>;
+  history: History;
 }
 
 const QRCode: React.FC<QRCodeProps> = ({
@@ -20,17 +22,29 @@ const QRCode: React.FC<QRCodeProps> = ({
   error,
   fetchUUID,
   userAvatar,
-  resetUserAvatar
+  resetUserAvatar,
+  history,
+  ContactList
 }) => {
+  
+
   React.useEffect(() => {
     fetchUUID();
-  }, [fetchUUID]);
+  }, []);
+
+  React.useEffect(()=>{
+    console.log('fetching', fetching);
+    
+  }, [fetching])
+
 
   return (
     <div className="qrcode-wrapper">
       {error ? (
         <React.Fragment>
-          <div className="nes-container is-rounded" style={{ textAlign: "center" }}>
+          <div>
+            className="nes-container is-rounded"
+            style={{ textAlign: "center" }}>
             <p>Opps, something went wrong. Check your network connection.</p>
           </div>
           <br />
@@ -44,8 +58,7 @@ const QRCode: React.FC<QRCodeProps> = ({
           <button
             style={{ fontSize: "1.5em", marginTop: "25px" }}
             className="nes-btn is-warning"
-            onClick={resetUserAvatar}
-          >
+            onClick={resetUserAvatar}>
             Switch Account
           </button>
         </React.Fragment>
@@ -62,16 +75,20 @@ const QRCode: React.FC<QRCodeProps> = ({
 
 const mapStateToProps = ({
   qrcode: { src, uuid, fetching, error },
-  login: { userAvatar }
+  login: { userAvatar },
+  initResult: { ContactList }
 }: AppState) => ({
   src,
   uuid,
   fetching,
   error,
-  userAvatar
+  userAvatar,
+  ContactList
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<QRCODE_ACTION_TYPES | LOGIN_ACTION_TYPES>) => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<QRCODE_ACTION_TYPES | LOGIN_ACTION_TYPES>
+) => ({
   fetchUUID: () => dispatch(fetchUuidAction()),
   resetUserAvatar: () => dispatch(setUserAvatar(""))
 });

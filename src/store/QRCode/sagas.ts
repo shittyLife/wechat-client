@@ -1,10 +1,16 @@
 import { takeLatest, put, call, take } from "redux-saga/effects";
 import { FETCH_UUID, SET_QRCODE_SRC } from "./types";
-import { setQRCodeAction, fetchUuidActionSuccess, fetchUuidActionFailure } from "./actions";
+import {
+  setQRCodeAction,
+  fetchUuidActionSuccess,
+  fetchUuidActionFailure
+} from "./actions";
 import { URL } from "../../constants";
 import * as Api from "../../api";
 import { setUserAvatar, loginActionSuccess } from "../loginResult/actions";
 import { checkUrlType, parseParam, generateDeviceID } from "../../util";
+import { InitResponse } from "../../models/InitResponse";
+import { initActionSuccess } from "../initResult/actions";
 
 function* watcherSaga() {
   yield takeLatest(FETCH_UUID, loadQrcodeFlow);
@@ -45,13 +51,20 @@ function* loginWorker(uuid: string) {
   // 获取公参
   const param_response = yield call(Api.getParams, query, url_type);
   const { skey, wxsid, wxuin, pass_ticket } = parseParam(param_response);
-  const initContact = yield call(Api.initContact, url_type, pass_ticket, {
-    Skey: skey,
-    Uin: wxuin,
-    Sid: wxsid,
-    DeviceID: generateDeviceID()
-  });
-  console.log(initContact);
+  const initResult: InitResponse = yield call(
+    Api.initContact,
+    url_type,
+    pass_ticket,
+    {
+      BaseRequest: {
+        Skey: skey,
+        Uin: wxuin,
+        Sid: wxsid,
+        DeviceID: generateDeviceID()
+      }
+    }
+  );
+  yield put(initActionSuccess(initResult.ContactList));
 }
 
 export default watcherSaga;

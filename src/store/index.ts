@@ -5,17 +5,19 @@ import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import qrcodeSaga from "./QRCode/sagas";
 import { loginReducer } from "./loginResult/reducer";
+import { initReducer } from "./initResult/reducer";
 
 const rootReducer = combineReducers({
   qrcode: qrcodeReducer,
-  login: loginReducer
+  login: loginReducer,
+  initResult: initReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(logger, sagaMiddleware))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
 sagaMiddleware.run(qrcodeSaga);

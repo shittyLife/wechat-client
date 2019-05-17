@@ -1,11 +1,13 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { URL } from "../constants";
 
 interface IBaseRequest {
-  Uin: string;
-  Sid: string;
-  Skey: string;
-  DeviceID: string;
+  BaseRequest: {
+    Uin: string;
+    Sid: string;
+    Skey: string;
+    DeviceID: string;
+  };
 }
 
 export function fetchUUID() {
@@ -20,12 +22,16 @@ export function getParams(query: string, url_type: string) {
   return axios.get(URL.PARAM(query, url_type)).then(res => res.data);
 }
 
-export function initContact(url_type: string, pass_ticket: string, baseRequest: IBaseRequest) {
+export function initContact(
+  url_type: string,
+  pass_ticket: string,
+  baseRequest: IBaseRequest
+) {
   const options = {
     url: URL.INIT(url_type, pass_ticket),
     method: "POST",
     headers: {
-      "content-type": "application/json:charset=utf-8"
+      "content-type": "application/json;charset=utf-8"
     },
     data: JSON.stringify(baseRequest),
     withCredentials: true

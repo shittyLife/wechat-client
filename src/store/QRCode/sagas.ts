@@ -64,7 +64,7 @@ function* loginWorker(uuid: string) {
       }
     }
   );
-  yield put(initActionSuccess(initResult.ContactList));
+  yield put(initActionSuccess(initResult.ContactList, initResult.User));
 }
 
 export default watcherSaga;

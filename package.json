@@ -21,6 +21,8 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.2",
     "redux-thunk": "^2.3.0",
+    "tslint": "^5.16.0",
+    "tslint-react": "^4.0.0",
     "typescript": "3.4.5"
   },
   "scripts": {
